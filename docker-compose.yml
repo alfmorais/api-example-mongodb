@@ -19,6 +19,7 @@ services:
       - MONGO_HOST=${MONGO_HOST}
       - MONGO_USERNAME=${MONGO_USERNAME}
       - MONGO_PASSWORD=${MONGO_PASSWORD}
+      - PORT=${PORT}
     restart: always
     depends_on:
       - mongodb

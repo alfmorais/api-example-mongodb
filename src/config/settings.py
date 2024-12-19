@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     mongo_host: str = os.environ["MONGO_HOST"]
     mongo_username: str = os.environ["MONGO_USERNAME"]
     mongo_password: str = os.environ["MONGO_PASSWORD"]
+    port: int = os.environ["PORT"]
 
 
 lru_settings = Settings()
