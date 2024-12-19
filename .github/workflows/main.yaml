@@ -1,0 +1,48 @@
+name: Deploy to Heroku
+
+on:
+  push:
+    branches:
+      - develop
+
+  workflow_dispatch:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dev dependencies
+        run: pip install taskipy ruff
+
+      - name: Check Lint
+        run: task format
+
+      - name: Build and running tests
+        run: |
+          task build
+          task tests
+      # - name: Login to Heroku Container Registry
+      #   env:
+      #     HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      #   run: |
+      #     echo $HEROKU_API_KEY | docker login --username=_ --password-stdin registry.heroku.com
+
+      # - name: Build Docker Image
+      #   run: |
+      #     docker build -t registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web .
+
+      # # 4. Push da imagem para o Heroku
+      # - name: Push Docker Image to Heroku
+      #   run: |
+      #     docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+
+      # # 5. Release do container no Heroku
+      # - name: Release the app
+      #   env:
+      #     HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      #   run: |
+      #     heroku container:release web --app ${{ secrets.HEROKU_APP_NAME }}
