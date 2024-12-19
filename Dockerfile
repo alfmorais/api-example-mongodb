@@ -2,7 +2,7 @@ FROM python:3.12-slim
 ENV POETRY_VIRTUALENVS_CREATE=false
 ENV PYTHONUNBUFFERED=1
 
-EXPOSE 8000
+EXPOSE 5000
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
