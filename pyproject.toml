@@ -1,0 +1,58 @@
+[tool.poetry]
+name = "api-example-mongodb"
+version = "0.1.0"
+description = ""
+authors = ["alfmorais <alfredneto@hotmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.115.6"
+httpx = "^0.28.1"
+mongomock = "^4.3.0"
+motor = "^3.6.0"
+pydantic = {extras = ["email"], version = "^2.10.3"}
+pydantic-settings = "^2.7.0"
+pytest = "^8.3.4"
+pytest-cov = "^6.0.0"
+uvicorn = "^0.34.0"
+validate-docbr = "^1.10.0"
+
+
+[tool.poetry.group.dev.dependencies]
+taskipy = "^1.14.1"
+ruff = "^0.8.3"
+ipdb = "^0.13.13"
+
+[tool.ruff]
+line-length = 79
+extend-exclude = ["migrations"]
+
+[tool.ruff.lint]
+preview = true
+select = ["I", "F", "E", "W", "PL", "PT"]
+ignore = ["PLR6301", "PT003", "PT011", "PT006"]
+
+[tool.ruff.format]
+preview = true
+quote-style = "double"
+
+[tool.pytest.ini_options]
+pythonpath = "."
+addopts = "-p no:warnings"
+asyncio_mode = "auto"
+
+[tool.taskipy.tasks]
+lint = "ruff check . && ruff check . --diff"
+format = "ruff check . --fix && ruff format ."
+export-requirements = "poetry export --format=requirements.txt --output=requirements.txt --with dev"
+run = "docker compose build --no-cache && docker compose up"
+tests = "docker compose run api pytest -vvv --cov=src tests"
+tests-without-docker = "pytest -vvv --cov=src tests"
+build = "docker compose build --no-cache"
+up = "docker compose up"
+run-without-docker = "python -m uvicorn src.app.main:app --reload --host 0.0.0.0 --port 8000"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

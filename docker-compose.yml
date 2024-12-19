@@ -1,0 +1,26 @@
+services:
+  mongodb:
+    image: mongo:latest
+    restart: always
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+  
+  api:
+    build: .
+    ports:
+      - 8000:8000
+    env_file:
+      - .env
+    environment:
+      - MONGO_DB=${MONGO_DB}
+      - MONGO_HOST=${MONGO_HOST}
+      - MONGO_USERNAME=${MONGO_USERNAME}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+    restart: always
+    depends_on:
+      - mongodb
+    volumes:
+      - ./src:/app/src
