@@ -21,4 +21,4 @@ RUN poetry install --no-root --no-interaction --no-ansi
 
 COPY . /app/
 
-CMD ["python", "-m", "uvicorn", "src.app.main:app", "--reload", "--host", "0.0.0.0", "--port", "${PORT}"]
+CMD ["sh", "-c", "uvicorn src.app.main:app --host 0.0.0.0 --port ${PORT:-5000}"]

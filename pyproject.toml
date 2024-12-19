@@ -52,7 +52,7 @@ tests-without-docker = "pytest -vvv --cov=src tests"
 build = "docker compose build --no-cache"
 up = "docker compose up"
 run-without-docker = "python -m uvicorn src.app.main:app --reload --host 0.0.0.0 --port 8000"
-heroku = "heroku container:push web -a api-example-mongodb && heroku container:release web -a api-example-mongodb"
+heroku = "heroku container:login && heroku container:push web -a api-example-mongodb && heroku container:release web -a api-example-mongodb"
 
 [build-system]
 requires = ["poetry-core"]
