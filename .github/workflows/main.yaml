@@ -37,23 +37,31 @@ jobs:
         run: |
           curl https://cli-assets.heroku.com/install.sh | sh
 
-      - name: Log in to Heroku Container Registry
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      - name: Check HEROKU_API_KEY
         run: |
-          echo "machine api.heroku.com
-          login $HEROKU_API_KEY
-          password $HEROKU_API_KEY
-          machine git.heroku.com
-          login $HEROKU_API_KEY
-          password $HEROKU_API_KEY" > ~/.netrc
-          chmod 600 ~/.netrc
-          heroku container:login
+          if [ -z "$HEROKU_API_KEY" ]; then
+            echo "HEROKU_API_KEY não está configurada."
+            exit 1
+          else
+            echo "HEROKU_API_KEY está configurada."
+          fi
+      # - name: Log in to Heroku Container Registry
+      #   env:
+      #     HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      #   run: |
+      #     echo "machine api.heroku.com
+      #     login $HEROKU_API_KEY
+      #     password $HEROKU_API_KEY
+      #     machine git.heroku.com
+      #     login $HEROKU_API_KEY
+      #     password $HEROKU_API_KEY" > ~/.netrc
+      #     chmod 600 ~/.netrc
+      #     heroku container:login
 
-      - name: Build and push Docker image to Heroku
-        run: |
-          heroku container:push web -a api-example-mongodb
+      # - name: Build and push Docker image to Heroku
+      #   run: |
+      #     heroku container:push web -a api-example-mongodb
 
-      - name: Release the Docker image
-        run: |
-          heroku container:release web -a api-example-mongodb
+      # - name: Release the Docker image
+      #   run: |
+      #     heroku container:release web -a api-example-mongodb
