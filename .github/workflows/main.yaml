@@ -41,7 +41,7 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
-          heroku container:login
+          echo $HEROKU_API_KEY | heroku auth:token > ~/.netrc && heroku container:login
 
       - name: Build and push Docker image to Heroku
         run: |
