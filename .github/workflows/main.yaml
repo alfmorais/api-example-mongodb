@@ -33,10 +33,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Deploy to Heroku
+- name: Install Heroku CLI
         run: |
-          heroku container:login
-          heroku container:push web -a api-example-mongodb
-          heroku container:release web -a api-example-mongodb
+          curl https://cli-assets.heroku.com/install.sh | sh
+
+      - name: Log in to Heroku Container Registry
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          heroku container:login
+
+      - name: Build and push Docker image to Heroku
+        env:
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+        run: |
+          heroku container:push web -a api-example-mongodb
+
+      - name: Release the Docker image
+        env:
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+        run: |
+          heroku container:release web -a api-example-mongodb
