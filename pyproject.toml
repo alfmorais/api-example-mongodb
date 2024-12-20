@@ -17,6 +17,7 @@ pytest = "^8.3.4"
 pytest-cov = "^6.0.0"
 uvicorn = "^0.34.0"
 validate-docbr = "^1.10.0"
+pytest-env = "^1.1.5"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -41,6 +42,17 @@ quote-style = "double"
 pythonpath = "."
 addopts = "-p no:warnings"
 asyncio_mode = "auto"
+env = [
+    "MONGO_CONN_STR=mongodb://admin:admin@mongodb:27017/",
+    "MONGO_DATABASE=users",
+    "MONGO_INITDB_ROOT_USERNAME=admin",
+    "MONGO_INITDB_ROOT_PASSWORD=admin",
+    "MONGO_DB=users",
+    "MONGO_HOST=mongodb",
+    "MONGO_USERNAME=admin",
+    "MONGO_PASSWORD=admin",
+    "PORT=5000",
+]
 
 [tool.taskipy.tasks]
 lint = "ruff check . && ruff check . --diff"

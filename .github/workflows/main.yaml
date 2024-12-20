@@ -21,18 +21,6 @@ jobs:
       - name: Check Lint
         run: task format
 
-      - name: Create .env file
-        run: |
-          echo "MONGO_CONN_STR=${{ secrets.MONGO_CONN_STR }}" >> .env
-          echo "MONGO_DATABASE=${{ secrets.MONGO_DATABASE }}" >> .env
-          echo "MONGO_INITDB_ROOT_USERNAME=${{ secrets.MONGO_INITDB_ROOT_USERNAME }}" >> .env
-          echo "MONGO_INITDB_ROOT_PASSWORD=${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}" >> .env
-          echo "MONGO_DB=${{ secrets.MONGO_DB }}" >> .env
-          echo "MONGO_HOST=${{ secrets.MONGO_HOST }}" >> .env
-          echo "MONGO_USERNAME=${{ secrets.MONGO_USERNAME }}" >> .env
-          echo "MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}" >> .env
-          echo "PORT=${{ secrets.PORT }}" >> .env
-
       - name: Build and running tests
         run: |
           pip install -r requirements.txt
