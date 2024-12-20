@@ -44,13 +44,9 @@ jobs:
           heroku container:login
 
       - name: Build and push Docker image to Heroku
-        env:
-          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
         run: |
           heroku container:push web -a api-example-mongodb
 
       - name: Release the Docker image
-        env:
-          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
         run: |
           heroku container:release web -a api-example-mongodb
