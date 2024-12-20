@@ -38,6 +38,8 @@ jobs:
           curl https://cli-assets.heroku.com/install.sh | sh
 
       - name: Check HEROKU_API_KEY
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
           if [ -z "$HEROKU_API_KEY" ]; then
             echo "HEROKU_API_KEY não está configurada."
