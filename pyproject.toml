@@ -7,6 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
+bandit = {extras = ["toml"], version = "^1.8.0"}
 fastapi = "^0.115.6"
 httpx = "^0.28.1"
 mongomock = "^4.3.0"
@@ -15,9 +16,9 @@ pydantic = {extras = ["email"], version = "^2.10.3"}
 pydantic-settings = "^2.7.0"
 pytest = "^8.3.4"
 pytest-cov = "^6.0.0"
+pytest-env = "^1.1.5"
 uvicorn = "^0.34.0"
 validate-docbr = "^1.10.0"
-pytest-env = "^1.1.5"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -55,16 +56,17 @@ env = [
 ]
 
 [tool.taskipy.tasks]
-lint = "ruff check . && ruff check . --diff"
-format = "ruff check . --fix && ruff format ."
+build = "docker compose build --no-cache"
 export-requirements = "poetry export --format=requirements.txt --output=requirements.txt --with dev"
+format = "ruff check . --fix && ruff format ."
+heroku = "heroku container:login && heroku container:push web -a api-example-mongodb && heroku container:release web -a api-example-mongodb"
+lint = "ruff check . && ruff check . --diff"
 run = "docker compose build --no-cache && docker compose up"
+run-without-docker = "python -m uvicorn src.app.main:app --reload --host 0.0.0.0 --port 8000"
+scan = "bandit -r . -x '/tests/'"
 tests = "docker compose run api pytest -vvv --cov=src tests"
 tests-without-docker = "pytest -vvv --cov=src tests"
-build = "docker compose build --no-cache"
 up = "docker compose up"
-run-without-docker = "python -m uvicorn src.app.main:app --reload --host 0.0.0.0 --port 8000"
-heroku = "heroku container:login && heroku container:push web -a api-example-mongodb && heroku container:release web -a api-example-mongodb"
 
 [build-system]
 requires = ["poetry-core"]

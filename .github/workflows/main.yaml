@@ -21,6 +21,9 @@ jobs:
       - name: Check Lint
         run: task format
 
+      - name: Check Vulnerabilities
+        run: task scan
+
       - name: Build and running tests
         run: |
           pytest -vvv --cov=src tests/
